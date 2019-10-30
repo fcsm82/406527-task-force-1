@@ -2,9 +2,10 @@
 
 class AvailableActions
 {
+    const ACTION_CREATE = 'create';
     const ACTION_CANCEL = 'cancel';
     const ACTION_RESPOND = 'respond';
-    const ACTION_START_PROCESS = 'start process';
+    const ACTION_SELECT_PERFORMER = 'select performer';
     const ACTION_COMPLETE = 'complete';
     const ACTION_REFUSE = 'refuse';
 
@@ -38,14 +39,17 @@ class AvailableActions
     public function getNextStatus ($action) {
 
         switch ($action) {
+            case self::ACTION_CREATE:
+                return self::STATUS_NEW;
+
             case self::ACTION_CANCEL:
                 return self::STATUS_CANCELED;
 
             case self::ACTION_RESPOND:
                 break;
 
-            case self::ACTION_START_PROCESS:
-                return self::STATUS_NEW;
+            case self::ACTION_SELECT_PERFORMER:
+                return self::STATUS_IN_PROCESS;
 
             case self::ACTION_COMPLETE:
                 return self::STATUS_COMPLETED;
