@@ -1,9 +1,10 @@
 .DS_Store
 .idea
+*.ttf
 *.ai
 *.log
 *.pdf
 *.psd
 *.sublime*
 Thumbs.db
-vendor
+fonts
