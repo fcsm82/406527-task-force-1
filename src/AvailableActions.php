@@ -1,5 +1,7 @@
 <?php
 
+namespace Business;
+
 class AvailableActions
 {
     const ACTION_CREATE = 'create';

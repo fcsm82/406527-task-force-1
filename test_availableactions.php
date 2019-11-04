@@ -1,6 +1,9 @@
 <?php
 
-spl_autoload_register();
+const APP_DIR = __DIR__;
+
+require_once APP_DIR . '/vendor/autoload.php';
+use Business\AvailableActions;
 
 $action = new AvailableActions;
 
