@@ -17,25 +17,14 @@ CREATE TABLE cities (
     UNIQUE (name)
 );
 
-CREATE TABLE countries (
-    id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(56) NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE (name)
-);
-
 CREATE TABLE locations (
     id INT NOT NULL AUTO_INCREMENT,
-    country_id INT NOT NULL,
+    -- country_id INT NOT NULL,
     city_id INT NOT NULL,
     latitude DECIMAL (8, 6),
     longtitude DECIMAL (9, 6),
     PRIMARY KEY (id)
 );
-
-ALTER TABLE locations
-	ADD FOREIGN KEY (country_id)
-			REFERENCES countries(id);
 
 ALTER TABLE locations
     ADD FOREIGN KEY (city_id)
@@ -54,13 +43,14 @@ CREATE TABLE users (
     telegram VARCHAR(50) NOT NULL,
     bio TEXT,
     last_online_time DATETIME,
-    location_id INT,
+    city_id INT,
     is_performer TINYINT NOT NULL DEFAULT 0,
     rejected_jobs INT DEFAULT NULL,
     is_visible TINYINT NOT NULL DEFAULT 0,
     is_favourite TINYINT NOT NULL DEFAULT 0,
     portfolio VARCHAR(255),
     orders_number INT DEFAULT 0,
+    rating DECIMAL DEFAULT 0,
     popularity INT DEFAULT 0,
     PRIMARY KEY (id),
     UNIQUE (email)
@@ -85,18 +75,18 @@ ALTER TABLE notifications
 	ADD FOREIGN KEY (user_id)
         REFERENCES users (id);
 
-CREATE TABLE skills (
+CREATE TABLE users_categories (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
     category_id INT NOT NULL,
     PRIMARY KEY (id)
 );
 
-ALTER TABLE skills
+ALTER TABLE users_categories
 	ADD FOREIGN KEY (user_id)
         REFERENCES users(id);
 
-ALTER TABLE skills
+ALTER TABLE users_categories
 	ADD FOREIGN KEY (category_id)
         REFERENCES categories(id);
 
@@ -140,7 +130,6 @@ CREATE TABLE responses (
     performer_id INT NOT NULL,
     comment TEXT,
     price INT,
-    files VARCHAR(255),
     PRIMARY KEY (id)
 );
 
