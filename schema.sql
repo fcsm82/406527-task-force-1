@@ -19,7 +19,6 @@ CREATE TABLE cities (
 
 CREATE TABLE locations (
     id INT NOT NULL AUTO_INCREMENT,
-    -- country_id INT NOT NULL,
     city_id INT NOT NULL,
     latitude DECIMAL (8, 6),
     longtitude DECIMAL (9, 6),
@@ -90,13 +89,39 @@ ALTER TABLE users_categories
 	ADD FOREIGN KEY (category_id)
         REFERENCES categories(id);
 
+CREATE TABLE files {
+  id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    path VARCHAR(255) NOT NULL UNIQUE,
+    PRIMARY KEY (id)
+}
+
+ALTER TABLE files
+    ADD FOREIGN KEY (user_id)
+			REFERENCES users(id);
+
+CREATE TABLE users_files (
+  id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    file_id INT NOT NULL,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE users_files
+	ADD FOREIGN KEY (user_id)
+        REFERENCES users(id);
+
+ALTER TABLE users_files
+	ADD FOREIGN KEY (files_id)
+        REFERENCES files(id);
+
 CREATE TABLE tasks (
     id INT NOT NULL AUTO_INCREMENT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     name VARCHAR(255) NOT NULL,
     details TEXT NOT NULL,
     category_id INT NOT NULL,
-    files VARCHAR(255),
+    files_id INT NOT NULL,
     location_id INT,
     description TEXT,
     budget INT DEFAULT NULL,
@@ -107,6 +132,9 @@ CREATE TABLE tasks (
     PRIMARY KEY (id)
 );
 
+ALTER TABLE tasks
+	ADD FOREIGN KEY (files_id)
+        REFERENCES files(id);
 ALTER TABLE tasks
 	ADD FOREIGN KEY (category_id)
         REFERENCES categories(id);
