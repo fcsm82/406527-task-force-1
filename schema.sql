@@ -27,7 +27,7 @@ CREATE TABLE locations (
 
 ALTER TABLE locations
     ADD FOREIGN KEY (city_id)
-			REFERENCES cities(id);
+      REFERENCES cities(id);
 
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
@@ -42,7 +42,7 @@ CREATE TABLE users (
     telegram VARCHAR(50) NOT NULL,
     bio TEXT,
     last_online_time DATETIME,
-    city_id INT,
+    location_id INT,
     is_performer TINYINT NOT NULL DEFAULT 0,
     rejected_jobs INT DEFAULT NULL,
     is_visible TINYINT NOT NULL DEFAULT 0,
@@ -71,7 +71,7 @@ CREATE TABLE notifications (
 );
 
 ALTER TABLE notifications
-	ADD FOREIGN KEY (user_id)
+  ADD FOREIGN KEY (user_id)
         REFERENCES users (id);
 
 CREATE TABLE users_categories (
@@ -82,38 +82,28 @@ CREATE TABLE users_categories (
 );
 
 ALTER TABLE users_categories
-	ADD FOREIGN KEY (user_id)
+  ADD FOREIGN KEY (user_id)
         REFERENCES users(id);
 
 ALTER TABLE users_categories
-	ADD FOREIGN KEY (category_id)
+  ADD FOREIGN KEY (category_id)
         REFERENCES categories(id);
 
-CREATE TABLE files {
+CREATE TABLE files (
   id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
+    task_id INT NOT NULL,
     path VARCHAR(255) NOT NULL UNIQUE,
-    PRIMARY KEY (id)
-}
-
-ALTER TABLE files
-    ADD FOREIGN KEY (user_id)
-			REFERENCES users(id);
-
-CREATE TABLE users_files (
-  id INT NOT NULL AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    file_id INT NOT NULL,
     PRIMARY KEY (id)
 );
 
-ALTER TABLE users_files
-	ADD FOREIGN KEY (user_id)
-        REFERENCES users(id);
+ALTER TABLE files
+    ADD FOREIGN KEY (user_id)
+      REFERENCES users(id);
 
-ALTER TABLE users_files
-	ADD FOREIGN KEY (files_id)
-        REFERENCES files(id);
+ALTER TABLE files
+    ADD FOREIGN KEY (user_id)
+      REFERENCES users(id);
 
 CREATE TABLE tasks (
     id INT NOT NULL AUTO_INCREMENT,
@@ -121,7 +111,7 @@ CREATE TABLE tasks (
     name VARCHAR(255) NOT NULL,
     details TEXT NOT NULL,
     category_id INT NOT NULL,
-    files_id INT NOT NULL,
+    file_id INT NOT NULL,
     location_id INT,
     description TEXT,
     budget INT DEFAULT NULL,
@@ -133,23 +123,39 @@ CREATE TABLE tasks (
 );
 
 ALTER TABLE tasks
-	ADD FOREIGN KEY (files_id)
+  ADD FOREIGN KEY (file_id)
         REFERENCES files(id);
+
 ALTER TABLE tasks
-	ADD FOREIGN KEY (category_id)
+  ADD FOREIGN KEY (category_id)
         REFERENCES categories(id);
 
 ALTER TABLE tasks
-	ADD FOREIGN KEY (location_id)
+  ADD FOREIGN KEY (location_id)
         REFERENCES locations(id);
 
 ALTER TABLE tasks
-	ADD  FOREIGN KEY (user_id)
+  ADD  FOREIGN KEY (user_id)
         REFERENCES users(id);
 
 ALTER TABLE tasks
-	ADD  FOREIGN KEY (performer_id)
+  ADD  FOREIGN KEY (performer_id)
         REFERENCES users(id);
+
+CREATE TABLE tasks_files (
+  id INT NOT NULL AUTO_INCREMENT,
+    task_id INT NOT NULL,
+    file_id INT NOT NULL,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE tasks_files
+  ADD FOREIGN KEY (task_id)
+        REFERENCES tasks(id);
+
+ALTER TABLE tasks_files
+  ADD FOREIGN KEY (file_id)
+        REFERENCES files(id);
 
 CREATE TABLE responses (
     id INT NOT NULL AUTO_INCREMENT,
@@ -162,12 +168,12 @@ CREATE TABLE responses (
 );
 
 ALTER TABLE responses
-	ADD FOREIGN KEY (task_id)
+  ADD FOREIGN KEY (task_id)
         REFERENCES tasks(id);
 
 ALTER TABLE responses
         ADD FOREIGN KEY (performer_id)
-			REFERENCES users(id);
+      REFERENCES users(id);
 
 CREATE TABLE chats (
     id INT NOT NULL AUTO_INCREMENT,
@@ -181,15 +187,15 @@ CREATE TABLE chats (
 );
 
 ALTER TABLE chats
-	ADD FOREIGN KEY (sender_id)
+  ADD FOREIGN KEY (sender_id)
         REFERENCES users(id);
 
 ALTER TABLE chats
-	ADD FOREIGN KEY (recipient_id)
+  ADD FOREIGN KEY (recipient_id)
         REFERENCES users (id);
 
 ALTER TABLE chats
-	ADD  FOREIGN KEY (task_id)
+  ADD  FOREIGN KEY (task_id)
         REFERENCES tasks(id);
 
 CREATE TABLE feedbacks (
@@ -204,13 +210,13 @@ CREATE TABLE feedbacks (
 );
 
 ALTER TABLE feedbacks
-	ADD FOREIGN KEY (user_id)
+  ADD FOREIGN KEY (user_id)
         REFERENCES users(id);
 
 ALTER TABLE feedbacks
-	ADD FOREIGN KEY (reviewer_id)
+  ADD FOREIGN KEY (reviewer_id)
         REFERENCES users(id);
 
 ALTER TABLE feedbacks
-	ADD FOREIGN KEY (task_id)
+  ADD FOREIGN KEY (task_id)
         REFERENCES tasks(id);
