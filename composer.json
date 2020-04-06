@@ -1,5 +1,16 @@
-{
-    "require-dev": {
-        "kahlan/kahlan": "^4.7"
-    }
+"name": "fcsm82/406527-task-force-1",
+"authors": [
+  {
+  "name": "Alexey Ivanov",
+  "email": "alexey.ivanov.private@gmail.com"
+  }
+],
+"description": "",
+"require": {},
+
+"autoload": {
+  "psr-4": {
+    "Business\\": "src"
+  }
+}
 }
