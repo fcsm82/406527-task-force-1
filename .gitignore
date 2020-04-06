@@ -8,4 +8,5 @@
 *.psd
 *.sublime*
 Thumbs.db
+fonts
 vendor
